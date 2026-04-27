@@ -25,3 +25,12 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+- **stellar-pay** (`artifacts/stellar-pay`) — React + Vite + Tailwind dApp on Stellar **testnet** that connects the Freighter wallet, fetches XLM balance from Horizon, and sends signed payments. Frontend-only (no backend). Key files:
+  - `src/utils/stellar.ts` — Horizon server + helpers (`getXlmBalance`, `buildPaymentXdr`, `submitSignedXdr`, address validation).
+  - `src/components/WalletConnect.tsx` — connect / disconnect Freighter.
+  - `src/components/Balance.tsx` — XLM balance card with refresh + Friendbot prompt for unfunded accounts.
+  - `src/components/SendPayment.tsx` — send form, signs with Freighter, shows success hash + Stellar Expert link.
+  - Dependencies: `@stellar/stellar-sdk`, `@stellar/freighter-api`.
