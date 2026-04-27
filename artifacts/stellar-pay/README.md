@@ -1,63 +1,70 @@
-# Stellar Pay
+# Stellar Pay Lite
 
-A simple Stellar **testnet** payment dApp built with React, Tailwind CSS, the Stellar SDK and the Freighter wallet.
+A premium, modern Stellar **testnet** payment dApp built with React, Tailwind CSS, the Stellar SDK, and Freighter wallet integration. This application allows users to connect their wallet, view their XLM balance, and send payments securely on the testnet.
 
 ## Features
 
-- Connect / disconnect Freighter wallet
-- Detects whether Freighter is installed and surfaces a clear install prompt
-- Persists the connected address across reloads (when the user already approved access)
-- Fetches and displays the live XLM balance from Horizon (testnet)
-- Sends XLM payments signed via Freighter
-- Shows the transaction hash, with a one-click link to Stellar Expert
-- Friendly error handling for unfunded accounts (with Friendbot link), invalid addresses, and Horizon failures
+- **Wallet Integration**: Connect and disconnect with the Freighter browser extension.
+- **Balance Tracking**: Real-time XLM balance fetching from the Stellar Horizon (testnet) API.
+- **Secure Payments**: Build and sign Stellar payment transactions via Freighter.
+- **Transaction History**: Immediate feedback with transaction hashes and links to Stellar Expert.
+- **Modern UI**: Sleek, dark-themed interface with responsive design and smooth animations.
 
-## Tech Stack
+## Setup Instructions
 
-- **React + Vite** (TypeScript)
-- **Tailwind CSS** for styling
-- **@stellar/stellar-sdk** for transaction building / Horizon access
-- **@stellar/freighter-api** for wallet integration
+To run this project locally on your machine, follow these steps:
 
-## Project Structure
+### Prerequisites
 
-```
-src/
-├── components/
-│   ├── WalletConnect.tsx   # Connect / disconnect UI
-│   ├── Balance.tsx         # XLM balance card
-│   └── SendPayment.tsx     # Send XLM form + result feedback
-├── utils/
-│   └── stellar.ts          # Horizon server + helper functions
-├── App.tsx                 # Layout + wallet state
-└── index.css               # Tailwind theme
-```
+- **Node.js**: Version 20 or higher.
+- **pnpm**: The project uses pnpm workspaces. Install it via `npm install -g pnpm`.
+- **Freighter Wallet**: Install the [Freighter browser extension](https://freighter.app/) and set it to **Test Network**.
 
-## Getting Started
+### Running Locally
 
-```bash
-pnpm install
-pnpm --filter @workspace/stellar-pay dev
-```
+1. **Install Dependencies**:
+   Open your terminal in the root directory and run:
+   ```bash
+   pnpm install --ignore-scripts
+   ```
+   *(Note: `--ignore-scripts` is recommended on Windows to bypass platform-specific pre-install checks).*
 
-Then open the preview. You'll need the [Freighter browser extension](https://freighter.app/) and a Stellar **testnet** account funded via [Friendbot](https://friendbot.stellar.org/).
+2. **Start the Application**:
+   Run the following command to start the development server:
+   ```powershell
+   $env:PORT=3000; $env:BASE_PATH='/'; pnpm --filter @workspace/stellar-pay dev
+   ```
 
-## How it Works
-
-1. **Connect** — the app calls Freighter's `requestAccess()` to obtain the user's public key.
-2. **Balance** — the app queries Horizon (`https://horizon-testnet.stellar.org`) using `loadAccount()` and reads the `native` balance.
-3. **Send** — a payment operation is built with the Stellar SDK, signed by Freighter via `signTransaction()` on the testnet passphrase, and submitted back to Horizon.
-4. **Feedback** — on success, the transaction hash and a Stellar Expert link are shown. On failure, the Horizon error (including `result_codes` when available) is surfaced.
+3. **Access the App**:
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
 ## Screenshots
 
-_Placeholder — add screenshots of the connect, balance, and send flows here._
+### 1. Wallet Connected State
+Once you approve the connection in Freighter, your public key is displayed securely.
+![Wallet Connected](docs/connect.png)
 
-- `docs/connect.png`
-- `docs/balance.png`
-- `docs/send.png`
+### 2. Balance Displayed
+The app fetches your live XLM balance from the Stellar Testnet.
+![Balance Displayed](docs/balance.png)
+
+### 3. Send Payment Form
+Enter the recipient's Stellar address and the amount of XLM you wish to send.
+![Send Payment](docs/send.png)
+
+### 4. Successful Transaction
+After signing the transaction with Freighter, the result is displayed with a link to the explorer.
+![Transaction Success](docs/success.png)
+
+## Tech Stack
+
+- **Frontend**: React, Vite, TypeScript
+- **Styling**: Tailwind CSS, Lucide React (Icons)
+- **Blockchain**: @stellar/stellar-sdk, @stellar/freighter-api
+- **State/Routing**: Wouter, React Query
 
 ## Notes
 
-- This dApp targets **Stellar testnet only** (network passphrase `Test SDF Network ; September 2015`).
-- Freighter must be set to the **Test Network** in its settings for signing to succeed.
+- This dApp targets the **Stellar Testnet** only.
+- Ensure your account is funded via [Friendbot](https://friendbot.stellar.org/) before sending payments.
+- Freighter must be configured to use the **Test Network** in its settings.
